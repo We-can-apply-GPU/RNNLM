@@ -2,18 +2,18 @@
 
 rnnpath=../..
 srilm_path=../../srilm/lm/bin/i686
-trainfile=../../data/train_1
-validfile=../../data/valid_1
-testfile=../../data/test_1
-rnnmodel1=../../models/model-1.hidden100.class100.txt
-rnnmodel2=../../models/model-2.hidden100.class100.txt
-rnnmodel3=../../models/model-3.hidden100.class100.txt
-rnnmodel4=../../models/model-4.hidden100.class100.txt
-rnnmodel5=../../models/model-5.hidden100.class100.txt
+trainfile=../../data/train_hw3
+validfile=../../data/valid_hw3
+testfile=../../data/test_hw3
+rnnmodel1=../../models/combination/model-1.hidden100.class100.txt
+rnnmodel2=../../models/combination/model-2.hidden100.class100.txt
+rnnmodel3=../../models/combination/model-3.hidden100.class100.txt
+rnnmodel4=../../models/combination/model-4.hidden100.class100.txt
+rnnmodel5=../../models/combination/model-5.hidden100.class100.txt
 temp=../../temp
 
-hidden_size=100
-class_size=100
+hidden_size=210
+class_size=1000
 bptt_steps=4
 
 #################################

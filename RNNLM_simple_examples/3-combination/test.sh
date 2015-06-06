@@ -2,16 +2,16 @@
 
 rnnpath=../..
 srilm_path=../../srilm/lm/bin/i686
-trainfile=../../data/train_1
-validfile=../../data/valid_1
-testfile=../../data/test_1
-rnnmodel1=../../models/model-1.hidden100.class100.txt
-rnnmodel2=../../models/model-2.hidden100.class100.txt
-rnnmodel3=../../models/model-3.hidden100.class100.txt
-rnnmodel4=../../models/model-4.hidden100.class100.txt
-rnnmodel5=../../models/model-5.hidden100.class100.txt
+trainfile=../../data/train_hw3
+validfile=../../data/valid_hw3
+testfile=../../data/test_hw3
+rnnmodel1=../../models/combination/model-1.hidden100.class100.txt
+rnnmodel2=../../models/combination/model-2.hidden100.class100.txt
+rnnmodel3=../../models/combination/model-3.hidden100.class100.txt
+rnnmodel4=../../models/combination/model-4.hidden100.class100.txt
+rnnmodel5=../../models/combination/model-5.hidden100.class100.txt
 temp=../../temp
-
+lambda=$1
 if [[ ! -e $rnnmodel1 || ! -e $rnnmodel2 || ! -e $rnnmodel3 || ! -e $rnnmodel4 || ! -e $rnnmodel5 ]]; then
     echo "model files not found... run first train.sh"
     exit
@@ -32,51 +32,19 @@ fi
 $srilm_path/ngram-count -text $trainfile -order 5 -lm $temp/templm -gt3min 1 -gt4min 1 -kndiscount -interpolate -unk
 $srilm_path/ngram -lm $temp/templm -order 5 -ppl $testfile -debug 2 > $temp/temp.ppl -unk
 
-$rnnpath/convert <$temp/temp.ppl >$temp/ngram.txt
+$rnnpath/convert <$temp/temp.ppl >$temp/srilm.txt
 
 ##################################################
 #COMPUTE PER-WORD PROBABILITIES GIVEN ALL 5 MODELS
 ##################################################
 
-$rnnpath/rnnlm -rnnlm $rnnmodel1 -test $testfile -debug 2 > $temp/model1.output.txt
-awk '{if ($2 ~ /^[0-9.]+$/) print $2;}' < $temp/model1.output.txt > $temp/model1.probs.txt
+$rnnpath/rnnlm -rnnlm $rnnmodel1 -test $testfile -lm-prob $temp/srilm.txt -lambda $lambda -nbest -debug 2 > $temp/model1.score.txt
 
-$rnnpath/rnnlm -rnnlm $rnnmodel2 -test $testfile -debug 2 > $temp/model2.output.txt
-awk '{if ($2 ~ /^[0-9.]+$/) print $2;}' < $temp/model2.output.txt > $temp/model2.probs.txt
+$rnnpath/rnnlm -rnnlm $rnnmodel2 -test $testfile -lm-prob $temp/srilm.txt -lambda $lambda  -nbest -debug 2 > $temp/model2.score.txt
 
-$rnnpath/rnnlm -rnnlm $rnnmodel3 -test $testfile -debug 2 > $temp/model3.output.txt
-awk '{if ($2 ~ /^[0-9.]+$/) print $2;}' < $temp/model3.output.txt > $temp/model3.probs.txt
+$rnnpath/rnnlm -rnnlm $rnnmodel3 -test $testfile -lm-prob $temp/srilm.txt -lambda $lambda  -nbest -debug 2 > $temp/model3.score.txt
 
-$rnnpath/rnnlm -rnnlm $rnnmodel4 -test $testfile -debug 2 > $temp/model4.output.txt
-awk '{if ($2 ~ /^[0-9.]+$/) print $2;}' < $temp/model4.output.txt > $temp/model4.probs.txt
+$rnnpath/rnnlm -rnnlm $rnnmodel4 -test $testfile -lm-prob $temp/srilm.txt -lambda $lambda  -nbest -debug 2 > $temp/model4.score.txt
 
-$rnnpath/rnnlm -rnnlm $rnnmodel5 -test $testfile -debug 2 > $temp/model5.output.txt
-awk '{if ($2 ~ /^[0-9.]+$/) print $2;}' < $temp/model5.output.txt > $temp/model5.probs.txt
+$rnnpath/rnnlm -rnnlm $rnnmodel5 -test $testfile -lm-prob $temp/srilm.txt -lambda $lambda  -nbest -debug 2 > $temp/model5.score.txt
 
-##################################################
-# MODELS ARE COMBINED HERE, PERPLEXITY IS REPORTED
-##################################################
-
-#the 'prob' tool takes 3 arguments - two files with probabilities, and the weight (lambda) of the first model - the output is then linear combination of both
-#in this example, all rnn models have the same weight
-$rnnpath/prob $temp/model1.probs.txt $temp/model2.probs.txt 0.5 > $temp/model12.probs.txt
-$rnnpath/prob $temp/model12.probs.txt $temp/model3.probs.txt 0.6666 > $temp/model123.probs.txt
-$rnnpath/prob $temp/model123.probs.txt $temp/model4.probs.txt 0.75 > $temp/model1234.probs.txt
-$rnnpath/prob $temp/model1234.probs.txt $temp/model5.probs.txt 0.8 > $temp/model12345.probs.txt
-
-$rnnpath/prob $temp/model12345.probs.txt $temp/ngram.txt 0.6 > $temp/model12345+ngram.probs.txt
-
-#with no arguemnts, 'prob' reads from stdin probabilities and probss perplexity and log likelihood
-echo "Probability from model 1"
-$rnnpath/prob < $temp/model1.probs.txt
-echo "Probability from model 12"
-$rnnpath/prob < $temp/model12.probs.txt
-echo "Probability from model 123"
-$rnnpath/prob < $temp/model123.probs.txt
-echo "Probability from model 1234"
-$rnnpath/prob < $temp/model1234.probs.txt
-echo "Probability from model 12345"
-$rnnpath/prob < $temp/model12345.probs.txt
-
-echo "Probability from model 12345 + ngram"
-$rnnpath/prob < $temp/model12345+ngram.probs.txt
