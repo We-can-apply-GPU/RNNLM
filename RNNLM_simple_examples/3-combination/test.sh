@@ -4,15 +4,20 @@ rnnpath=../..
 srilm_path=../../srilm/lm/bin/i686
 trainfile=../../data/train_hw3
 validfile=../../data/valid_hw3
-testfile=../../data/test_hw3
+testfile=../../data/$1
 rnnmodel1=../../models/combination/model-1.hidden100.class100.txt
 rnnmodel2=../../models/combination/model-2.hidden100.class100.txt
 rnnmodel3=../../models/combination/model-3.hidden100.class100.txt
 rnnmodel4=../../models/combination/model-4.hidden100.class100.txt
 rnnmodel5=../../models/combination/model-5.hidden100.class100.txt
+rnnmodel6=../../models/combination/model-6.hidden100.class100.txt
+rnnmodel7=../../models/combination/model-7.hidden100.class100.txt
+rnnmodel8=../../models/combination/model-8.hidden100.class100.txt
+rnnmodel9=../../models/combination/model-9.hidden100.class100.txt
 temp=../../temp
-lambda=$1
-if [[ ! -e $rnnmodel1 || ! -e $rnnmodel2 || ! -e $rnnmodel3 || ! -e $rnnmodel4 || ! -e $rnnmodel5 ]]; then
+scores=./scores_$1
+lambda=$2
+if [[ ! -e $rnnmodel1 || ! -e $rnnmodel2 || ! -e $rnnmodel3 || ! -e $rnnmodel4 || ! -e $rnnmodel5|| ! -e $rnnmodel6|| ! -e $rnnmodel7|| ! -e $rnnmodel8|| ! -e $rnnmodel9 ]]; then
     echo "model files not found... run first train.sh"
     exit
 fi
@@ -38,13 +43,18 @@ $rnnpath/convert <$temp/temp.ppl >$temp/srilm.txt
 #COMPUTE PER-WORD PROBABILITIES GIVEN ALL 5 MODELS
 ##################################################
 
-$rnnpath/rnnlm -rnnlm $rnnmodel1 -test $testfile -lm-prob $temp/srilm.txt -lambda $lambda -nbest -debug 2 > $temp/model1.score.txt
+$rnnpath/rnnlm -rnnlm $rnnmodel1 -test $testfile -lm-prob $temp/srilm.txt -lambda $lambda -nbest -debug 2 > $scores/model1.score.txt
 
-$rnnpath/rnnlm -rnnlm $rnnmodel2 -test $testfile -lm-prob $temp/srilm.txt -lambda $lambda  -nbest -debug 2 > $temp/model2.score.txt
+$rnnpath/rnnlm -rnnlm $rnnmodel2 -test $testfile -lm-prob $temp/srilm.txt -lambda $lambda  -nbest -debug 2 > $scores/model2.score.txt
 
-$rnnpath/rnnlm -rnnlm $rnnmodel3 -test $testfile -lm-prob $temp/srilm.txt -lambda $lambda  -nbest -debug 2 > $temp/model3.score.txt
+$rnnpath/rnnlm -rnnlm $rnnmodel3 -test $testfile -lm-prob $temp/srilm.txt -lambda $lambda  -nbest -debug 2 > $scores/model3.score.txt
 
-$rnnpath/rnnlm -rnnlm $rnnmodel4 -test $testfile -lm-prob $temp/srilm.txt -lambda $lambda  -nbest -debug 2 > $temp/model4.score.txt
+$rnnpath/rnnlm -rnnlm $rnnmodel4 -test $testfile -lm-prob $temp/srilm.txt -lambda $lambda  -nbest -debug 2 > $scores/model4.score.txt
 
-$rnnpath/rnnlm -rnnlm $rnnmodel5 -test $testfile -lm-prob $temp/srilm.txt -lambda $lambda  -nbest -debug 2 > $temp/model5.score.txt
+$rnnpath/rnnlm -rnnlm $rnnmodel5 -test $testfile -lm-prob $temp/srilm.txt -lambda $lambda  -nbest -debug 2 > $scores/model5.score.txt
+
+$rnnpath/rnnlm -rnnlm $rnnmodel6 -test $testfile -lm-prob $temp/srilm.txt -lambda $lambda  -nbest -debug 2 > $scores/model6.score.txt
+$rnnpath/rnnlm -rnnlm $rnnmodel7 -test $testfile -lm-prob $temp/srilm.txt -lambda $lambda  -nbest -debug 2 > $scores/model7.score.txt
+$rnnpath/rnnlm -rnnlm $rnnmodel8 -test $testfile -lm-prob $temp/srilm.txt -lambda $lambda  -nbest -debug 2 > $scores/model8.score.txt
+$rnnpath/rnnlm -rnnlm $rnnmodel9 -test $testfile -lm-prob $temp/srilm.txt -lambda $lambda  -nbest -debug 2 > $scores/model9.score.txt
 

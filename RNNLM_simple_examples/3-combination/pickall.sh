@@ -1,28 +1,39 @@
-rm -rf "scores_toy"
-mkdir "scores_toy"
+#!/usr/bin/env sh
 
-echo "Using LM:"
-./test.sh $2
+number=9
+suffix=".score.txt"
+tmp="tmp"
 
-sed -i model1.score.txt 
-sed -i model2.score.txt 
-sed -i model3.score.txt 
-sed -i model4.score.txt 
-sed -i model5.score.txt 
-sed -i model6.score.txt 
-sed -i model7.score.txt 
-sed -i model8.score.txt 
-sed -i model9.score.txt 
+if [ $# -ne 0  ]; then
+    DIC_PATH=scores_$1
+    rm -rf $DIC_PATH
+    mkdir $DIC_PATH
 
-echo "Picking begin:"
-python pickone.py 1 $1
-python pickone.py 2 $1
-python pickone.py 3 $1
-python pickone.py 4 $1
-python pickone.py 5 $1
-python pickone.py 6 $1
-python pickone.py 7 $1
-python pickone.py 8 $1
-python pickone.py 9 $1
-echo "Voting all:"
-python vote.py
+    echo "Using LM:"
+    ./test.sh $1 $2
+    cd  $DIC_PATH
+
+    for cnt in $(seq "$number")
+        do
+            file="model$cnt$suffix"
+            sed  -i 's/test.*$//g' $file
+            sed  -i 's/PPL.*$//g'  $file 
+            sed  -i '1,6d'         $file 
+            sed  -i '/^$/d'        $file
+        done
+    
+    echo "Picking begin:"
+    for cnt in $(seq "$number")
+        do
+            python ../pickone.py $cnt $1
+        done
+    cd ..
+
+    echo "Voting all:"
+    python vote.py
+
+else
+    echo "Usage: <filename> <lamda>";
+    exit
+fi
+

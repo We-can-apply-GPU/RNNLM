@@ -10,6 +10,10 @@ rnnmodel2=../../models/combination/model-2.hidden100.class100.txt
 rnnmodel3=../../models/combination/model-3.hidden100.class100.txt
 rnnmodel4=../../models/combination/model-4.hidden100.class100.txt
 rnnmodel5=../../models/combination/model-5.hidden100.class100.txt
+rnnmodel6=../../models/combination/model-6.hidden100.class100.txt
+rnnmodel7=../../models/combination/model-7.hidden100.class100.txt
+rnnmodel8=../../models/combination/model-8.hidden100.class100.txt
+rnnmodel9=../../models/combination/model-9.hidden100.class100.txt
 temp=../../temp
 
 hidden_size=210
@@ -72,6 +76,30 @@ fi
 if [ -e $rnnmodel5.output.txt ]; then
     rm $rnnmodel5.output.txt
 fi
+if [ -e $rnnmodel6 ]; then
+    rm $rnnmodel6
+fi
+if [ -e $rnnmodel6.output.txt ]; then
+    rm $rnnmodel6.output.txt
+fi
+if [ -e $rnnmodel7 ]; then
+    rm $rnnmodel7
+fi
+if [ -e $rnnmodel7.output.txt ]; then
+    rm $rnnmodel7.output.txt
+fi
+if [ -e $rnnmodel8 ]; then
+    rm $rnnmodel8
+fi
+if [ -e $rnnmodel8.output.txt ]; then
+    rm $rnnmodel8.output.txt
+fi
+if [ -e $rnnmodel9 ]; then
+    rm $rnnmodel9
+fi
+if [ -e $rnnmodel9.output.txt ]; then
+    rm $rnnmodel9.output.txt
+fi
 
 #######################################################################################################
 # TRAINING OF RNNLMS HAPPENS HERE - DIFFERENT INITIALIZATION IS OBTAINED BY USING -rand-seed <n> SWITCH
@@ -82,3 +110,7 @@ time $rnnpath/rnnlm -train $trainfile -valid $validfile -rnnlm $rnnmodel2 -hidde
 time $rnnpath/rnnlm -train $trainfile -valid $validfile -rnnlm $rnnmodel3 -hidden $hidden_size -rand-seed 3 -debug 2 -class $class_size -bptt $bptt_steps -bptt-block 10
 time $rnnpath/rnnlm -train $trainfile -valid $validfile -rnnlm $rnnmodel4 -hidden $hidden_size -rand-seed 4 -debug 2 -class $class_size -bptt $bptt_steps -bptt-block 10
 time $rnnpath/rnnlm -train $trainfile -valid $validfile -rnnlm $rnnmodel5 -hidden $hidden_size -rand-seed 5 -debug 2 -class $class_size -bptt $bptt_steps -bptt-block 10
+time $rnnpath/rnnlm -train $trainfile -valid $validfile -rnnlm $rnnmodel6 -hidden $hidden_size -rand-seed 6 -debug 2 -class $class_size -bptt $bptt_steps -bptt-block 10
+time $rnnpath/rnnlm -train $trainfile -valid $validfile -rnnlm $rnnmodel7 -hidden $hidden_size -rand-seed 7 -debug 2 -class $class_size -bptt $bptt_steps -bptt-block 10
+time $rnnpath/rnnlm -train $trainfile -valid $validfile -rnnlm $rnnmodel8 -hidden $hidden_size -rand-seed 8 -debug 2 -class $class_size -bptt $bptt_steps -bptt-block 10
+time $rnnpath/rnnlm -train $trainfile -valid $validfile -rnnlm $rnnmodel9 -hidden $hidden_size -rand-seed 9 -debug 2 -class $class_size -bptt $bptt_steps -bptt-block 10

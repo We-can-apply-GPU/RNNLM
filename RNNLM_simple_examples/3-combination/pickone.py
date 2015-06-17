@@ -2,8 +2,8 @@ import numpy as np
 import sys
 NBEST = 5
 if __name__ == "__main__":
-    with open ("scores_"+ sys.argv[2] + "/model"+sys.argv[1]+".score.txt",'r') as score,\
-         open("scores_hw3/" + sys.argv[1] + ".candidate",'w') as record:
+    with open ("model"+sys.argv[1]+".score.txt",'r') as score,\
+         open(sys.argv[1] + ".candidate",'w') as record:
          for line,score in enumerate(score,1):
             if(line == 1):
                  best_score = -1000.0
