@@ -11,6 +11,7 @@ if [ $# -ne 0  ]; then
 
     echo "Using LM:"
     ./test.sh $1 $2
+    echo "cd $DIC_PATH"
     cd  $DIC_PATH
 
     for cnt in $(seq "$number")
@@ -30,7 +31,7 @@ if [ $# -ne 0  ]; then
     cd ..
 
     echo "Voting all:"
-    python vote.py
+    python vote.py $1
 
 else
     echo "Usage: <filename> <lamda>";

@@ -1,5 +1,6 @@
 import operator
 import sys
+NUM_SENTENCES=535
 
 DATA_PATH = "scores_"+ sys.argv[1] +"/"
 class Eachline:
@@ -10,7 +11,7 @@ class Eachline:
 #=======================================================
 
 #set vote
-ans = [Eachline() for _ in range(1040)]
+ans = [Eachline() for _ in range(NUM_SENTENCES)]
 for i in range(1,10):
     with open(DATA_PATH + '/' + str(i) + '.candidate','r') as candidate:
         for line in candidate:
@@ -19,7 +20,7 @@ for i in range(1,10):
 
 #begin vote
 with open(DATA_PATH + '/' + "123456789voting",'w') as fout:
-    for i in range(1040):
+    for i in range(NUM_SENTENCES):
         best = max(ans[i].scoresDic.items(), key=operator.itemgetter(1))[0]
         fout.write("{},{}\n".format(i+1,best))
 
