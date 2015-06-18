@@ -2,18 +2,18 @@
 
 rnnpath=../..
 srilm_path=../../srilm/lm/bin/i686
-trainfile=../../data/train_hw3
-validfile=../../data/valid_hw3
-testfile=../../data/test_hw3
-rnnmodel1=../../models/combination/model-1.hidden100.class100.txt
-rnnmodel2=../../models/combination/model-2.hidden100.class100.txt
-rnnmodel3=../../models/combination/model-3.hidden100.class100.txt
-rnnmodel4=../../models/combination/model-4.hidden100.class100.txt
-rnnmodel5=../../models/combination/model-5.hidden100.class100.txt
-rnnmodel6=../../models/combination/model-6.hidden100.class100.txt
-rnnmodel7=../../models/combination/model-7.hidden100.class100.txt
-rnnmodel8=../../models/combination/model-8.hidden100.class100.txt
-rnnmodel9=../../models/combination/model-9.hidden100.class100.txt
+trainfile=../../data/corpus/$1/train_$1
+validfile=../../data/corpus/$1/valid_$1
+testfile=../../data/corpus/test_$1
+rnnmodel1=../../models/combination_$1/model-1.hidden100.class100.txt
+rnnmodel2=../../models/combination_$1/model-2.hidden100.class100.txt
+rnnmodel3=../../models/combination_$1/model-3.hidden100.class100.txt
+rnnmodel4=../../models/combination_$1/model-4.hidden100.class100.txt
+rnnmodel5=../../models/combination_$1/model-5.hidden100.class100.txt
+rnnmodel6=../../models/combination_$1/model-6.hidden100.class100.txt
+rnnmodel7=../../models/combination_$1/model-7.hidden100.class100.txt
+rnnmodel8=../../models/combination_$1/model-8.hidden100.class100.txt
+rnnmodel9=../../models/combination_$1/model-9.hidden100.class100.txt
 temp=../../temp
 
 hidden_size=210

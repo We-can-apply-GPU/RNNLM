@@ -4,7 +4,7 @@
 # $Header: /home/srilm/CVS/srilm/Makefile,v 1.70 2014-05-26 03:30:23 stolcke Exp $
 #
 
-SRILM = /home/sunprinces/Downloads/srilm
+SRILM = /home/sunprinces/Downloads/NTUEE/sophomore/MLDS/rnnlm-0.4b/srilm
 MACHINE_TYPE := $(shell $(SRILM)/sbin/machine-type)
 
 RELEASE := $(shell cat RELEASE)
